@@ -16,7 +16,7 @@ public enum Statuss
     VISITED = 128, // 1000 0000
 }
 
-public struct Position
+public struct Location
 {
     public int X;
     public int Y;
@@ -24,31 +24,20 @@ public struct Position
 
 public struct Neighbour
 {
-    public Position Position;
+    public Location Location;
     public Statuss SharedWall;
 }
 
 public static class MazeGenerator
 {
-    //Get opposite wall
-    private static Statuss GetOppositeWall(Statuss wall)
-    {
-        switch (wall)
-        {
-            case Statuss.R: return Statuss.L;
-            case Statuss.L: return Statuss.R;
-            case Statuss.U: return Statuss.D;
-            case Statuss.D: return Statuss.U;
-            default: return Statuss.L;
-        }
-    }
+    
 
-    private static Statuss[,] ApplyRecursiveBacktracker(Statuss[,] maze)
+    private static Statuss[,] ApplyBacktracker(Statuss[,] maze)
     {
         // here we make changes
         var rng = new System.Random(/*seed*/);
-        var positionStack = new Stack<Position>();
-        var position = new Position { X = rng.Next(0, 10), Y = rng.Next(0, 10) };
+        var positionStack = new Stack<Location>();
+        var position = new Location { X = rng.Next(0, 10), Y = rng.Next(0, 10) };
 
         maze[position.X, position.Y] |= Statuss.VISITED;  // 1000 1111
         positionStack.Push(position);
@@ -65,9 +54,9 @@ public static class MazeGenerator
                 var randIndex = rng.Next(0, neighbours.Count);
                 var randomNeighbour = neighbours[randIndex];
 
-                var nPosition = randomNeighbour.Position;
+                var nPosition = randomNeighbour.Location;
                 maze[current.X, current.Y] &= ~randomNeighbour.SharedWall;
-                maze[nPosition.X, nPosition.Y] &= ~GetOppositeWall(randomNeighbour.SharedWall);
+                maze[nPosition.X, nPosition.Y] &= ~GetOpposite(randomNeighbour.SharedWall);
                 maze[nPosition.X, nPosition.Y] |= Statuss.VISITED;
 
                 positionStack.Push(nPosition);
@@ -76,8 +65,18 @@ public static class MazeGenerator
 
         return maze;
     }
+    //Get opposite wall
+    private static Statuss GetOpposite(Statuss wall)
+    {
 
-    private static List<Neighbour> GetUnvisitedNeighbours(Position p, Statuss[,] maze)
+        if (wall == Statuss.R) { return Statuss.L; }
+        else if (wall == Statuss.D) { return Statuss.U; }
+        else if (wall == Statuss.L) { return Statuss.R; }
+        else if (wall == Statuss.U) { return Statuss.D; }
+        else return Statuss.L;
+
+    }
+    private static List<Neighbour> GetUnvisitedNeighbours(Location p, Statuss[,] maze)
     {
         var list = new List<Neighbour>();
 
@@ -87,7 +86,7 @@ public static class MazeGenerator
             {
                 list.Add(new Neighbour
                 {
-                    Position = new Position
+                    Location = new Location
                     {
                         X = p.X - 1,
                         Y = p.Y
@@ -103,7 +102,7 @@ public static class MazeGenerator
             {
                 list.Add(new Neighbour
                 {
-                    Position = new Position
+                    Location = new Location
                     {
                         X = p.X,
                         Y = p.Y - 1
@@ -119,7 +118,7 @@ public static class MazeGenerator
             {
                 list.Add(new Neighbour
                 {
-                    Position = new Position
+                    Location = new Location
                     {
                         X = p.X,
                         Y = p.Y + 1
@@ -135,7 +134,7 @@ public static class MazeGenerator
             {
                 list.Add(new Neighbour
                 {
-                    Position = new Position
+                    Location = new Location
                     {
                         X = p.X + 1,
                         Y = p.Y
@@ -160,7 +159,7 @@ public static class MazeGenerator
             }
         }
 
-        return ApplyRecursiveBacktracker(maze);
+        return ApplyBacktracker(maze);
     }
 }
 

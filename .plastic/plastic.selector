@@ -1,4 +1,0 @@
-repository "MasterMazeGenerator@MindCave@cloud"
-  path "/"
-    br "/main"
-    co "/main"

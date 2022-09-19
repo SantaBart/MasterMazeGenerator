@@ -9,6 +9,8 @@ public class MazeRenderer : MonoBehaviour
     [SerializeField]
     private Transform wall = null;
 
+    [SerializeField]
+    private Transform floor = null;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +27,9 @@ public class MazeRenderer : MonoBehaviour
             {
                 var location = new Vector3(-5 + i, 0, -5 + j);// position of each cell is ofset from center
                 var cell = maze[i, j];
-                
+                var bottom  = Instantiate(floor, transform) as Transform;
+                bottom.position = location;
+
                 if (j == 0) //last vertical wall
                 {
                     if (cell.HasFlag(Statuss.D))
