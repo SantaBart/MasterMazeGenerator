@@ -12,11 +12,21 @@ public class MazeRenderer : MonoBehaviour
     [SerializeField]
     private Transform floor = null;
 
+    [SerializeField]
+    private Transform coin = null;
+
     // Start is called before the first frame update
     void Start()
     {
         var maze = MazeGenerator.Generate();
         DrawInitialMaze(maze);
+        PlaceCoin();
+    }
+    private void PlaceCoin()
+    {
+        var location = new Vector3(-5, 0.3f, 0);// position of the coin
+        var c = Instantiate(coin, transform) as Transform;
+        coin.position = location;
     }
     //Draw the initial maze structure with all posible walls
     private void DrawInitialMaze(Statuss[,] maze)

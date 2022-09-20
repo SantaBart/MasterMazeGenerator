@@ -35,9 +35,9 @@ public static class MazeGenerator
     private static Statuss[,] ApplyBacktracker(Statuss[,] maze)
     {
         // here we make changes
-        var rng = new System.Random(/*seed*/);
+        var random = new System.Random(/*seed*/);
         var positionStack = new Stack<Location>();
-        var position = new Location { X = rng.Next(0, 10), Y = rng.Next(0, 10) };
+        var position = new Location { X = random.Next(0, 10), Y = random.Next(0, 10) };
 
         maze[position.X, position.Y] |= Statuss.VISITED;  // 1000 1111
         positionStack.Push(position);
@@ -51,8 +51,8 @@ public static class MazeGenerator
             {
                 positionStack.Push(current);
 
-                var randIndex = rng.Next(0, neighbours.Count);
-                var randomNeighbour = neighbours[randIndex];
+                var randomIndex = random.Next(0, neighbours.Count);
+                var randomNeighbour = neighbours[randomIndex];
 
                 var nPosition = randomNeighbour.Location;
                 maze[current.X, current.Y] &= ~randomNeighbour.SharedWall;
@@ -86,11 +86,7 @@ public static class MazeGenerator
             {
                 list.Add(new Neighbour
                 {
-                    Location = new Location
-                    {
-                        X = p.X - 1,
-                        Y = p.Y
-                    },
+                    Location = new Location {X = p.X - 1,Y = p.Y},
                     SharedWall = Statuss.L
                 });
             }
@@ -102,11 +98,7 @@ public static class MazeGenerator
             {
                 list.Add(new Neighbour
                 {
-                    Location = new Location
-                    {
-                        X = p.X,
-                        Y = p.Y - 1
-                    },
+                    Location = new Location{X = p.X,Y = p.Y - 1},
                     SharedWall = Statuss.D
                 });
             }
@@ -118,11 +110,7 @@ public static class MazeGenerator
             {
                 list.Add(new Neighbour
                 {
-                    Location = new Location
-                    {
-                        X = p.X,
-                        Y = p.Y + 1
-                    },
+                    Location = new Location{X = p.X,Y = p.Y + 1},
                     SharedWall = Statuss.U
                 });
             }
@@ -134,11 +122,7 @@ public static class MazeGenerator
             {
                 list.Add(new Neighbour
                 {
-                    Location = new Location
-                    {
-                        X = p.X + 1,
-                        Y = p.Y
-                    },
+                    Location = new Location{X = p.X + 1,Y = p.Y},
                     SharedWall = Statuss.R
                 });
             }
