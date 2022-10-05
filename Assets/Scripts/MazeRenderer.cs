@@ -39,6 +39,7 @@ public class MazeRenderer : MonoBehaviour
                 var cell = maze[i, j];
                 var bottom  = Instantiate(floor, transform) as Transform;
                 bottom.position = location;
+               
 
                 if (j == 0) //last vertical wall
                 {
