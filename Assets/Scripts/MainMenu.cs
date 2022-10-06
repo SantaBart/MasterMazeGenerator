@@ -6,13 +6,16 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Linq;
+using Mono.Data.Sqlite;
+using System.Data;
+
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
     public TextMeshProUGUI ifield = null;
 
-
+    string conn = "URI=file:" + Application.dataPath + "/Plugins/Participants.s3db";
 
 
     public void PlayGame()
