@@ -88,6 +88,7 @@ public class MainMenu : MonoBehaviour
 
     }
 
+
     private void CloseConnection() 
     {
         // Close connection
@@ -108,6 +109,13 @@ public class MainMenu : MonoBehaviour
         //delete table my_table
         dbcmd.CommandText = q_createTable;
         dbcmd.ExecuteReader();
+        IDbCommand dbcmd2 = dbcon.CreateCommand();
+        string q2_createTable = "CREATE TABLE IF NOT EXISTS Results" +
+        " (id INTEGER PRIMARY KEY AUTOINCREMENT, participantID INTEGER, time REAL, seqNo INTEGER )";
+        //delete table my_table
+        dbcmd2.CommandText = q2_createTable;
+        dbcmd2.ExecuteReader();
+
     }
 
 
