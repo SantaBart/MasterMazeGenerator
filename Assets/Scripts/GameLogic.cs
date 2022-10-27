@@ -16,7 +16,7 @@ public class GameLogic : MonoBehaviour
     public float Timer;
     private string connection;
     private IDbConnection dbcon;
-
+    private int id;
     [SerializeField]
     public TextMeshProUGUI timerField = null;
 
@@ -45,8 +45,17 @@ public class GameLogic : MonoBehaviour
         StopTimer();
         insertResult();
         Timer = 0;
-        if (seqNo == 3)
+        if (seqNo == 5)
         {
+            OpenConnection();
+            IDbCommand cmnd = dbcon.CreateCommand();
+            cmnd.CommandText = "UPDATE participant " +
+                "SET finished = 1, " +
+                "finish_date = datetime('now')" +
+                "WHERE id=" + id.ToString();
+            cmnd.ExecuteNonQuery();
+
+            CloseConnection();
             NextScene();
         }
         else
@@ -77,7 +86,7 @@ public class GameLogic : MonoBehaviour
     private void insertResult()
     {
         OpenConnection();
-        int id = PlayerPrefs.GetInt("UserID");
+        id = PlayerPrefs.GetInt("UserID");
         IDbCommand cmnd = dbcon.CreateCommand();
         cmnd.CommandText = "INSERT INTO Results (participantID, time, seqNo) VALUES (" + id + ", " + Timer + "," + seqNo + ")";
         cmnd.ExecuteNonQuery();

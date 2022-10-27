@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using Mono.Data.Sqlite;
 using System.Data;
+using System.IO;
 
 
 public class MainMenu : MonoBehaviour
@@ -15,40 +16,21 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI ifield = null;
 
+    string filename = "";
 
     private string connection;
     private IDbConnection dbcon;
+    private int id;
 
     void Start()
     {
+        
+        id= CheckPreviousId();
+        ifield.text = id.ToString();
+        PlayerPrefs.SetInt("UserID", id);
+ 
+
        
-
-        int id= CheckPreviousId();
-        if (!CheckIfParticipated(id))
-        {
-            ifield.text = id.ToString();
-            PlayerPrefs.SetInt("UserID", id);
-        }
-
-        //// Insert values in table
-        //IDbCommand cmnd = dbcon.CreateCommand();
-        //cmnd.CommandText = "INSERT INTO my_table (id, val) VALUES (0, 5)";
-        //cmnd.ExecuteNonQuery();
-
-        // Read and print all values in table
-      /*  IDbCommand cmnd_read = dbcon.CreateCommand();
-        IDataReader reader;
-        string query = "SELECT * FROM my_table";
-        cmnd_read.CommandText = query;
-        reader = cmnd_read.ExecuteReader();
-
-        while (reader.Read())
-        {
-            Debug.Log("id: " + reader[0].ToString());
-            Debug.Log("val: " + reader[1].ToString());
-        }*/
-
-     
     }
 
     public void PlayGame()
@@ -58,7 +40,15 @@ public class MainMenu : MonoBehaviour
            //warning
         }
         else
-        { 
+        {
+            OpenConnection();
+            IDbCommand cmnd = dbcon.CreateCommand();
+            cmnd.CommandText = "UPDATE participant " +
+                "SET started = 1, " +
+                "start_date = datetime('now')" +
+                "WHERE id="+id.ToString();
+            cmnd.ExecuteNonQuery();
+
             CloseConnection();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);  
         }
@@ -77,10 +67,10 @@ public class MainMenu : MonoBehaviour
         cmd.CommandType = CommandType.Text;
         int RowCount = 0;
 
-        int id = Convert.ToInt32(cmd.ExecuteScalar());
+        id = Convert.ToInt32(cmd.ExecuteScalar());
         ifield.text = id.ToString();
         IDbCommand cmnd = dbcon.CreateCommand();
-        cmnd.CommandText = "INSERT INTO participant (id, start_date) VALUES (" + id + ", datetime('now'))";
+        cmnd.CommandText = "INSERT INTO participant (id) VALUES (" + id + ")";
         cmnd.ExecuteNonQuery();
         int.TryParse(GetNumbers(ifield.text), out int result);
         PlayerPrefs.SetInt("UserID", result);
@@ -105,7 +95,7 @@ public class MainMenu : MonoBehaviour
         IDbCommand dbcmd;
         dbcmd = dbcon.CreateCommand();
         string q_createTable = "CREATE TABLE IF NOT EXISTS Participant" +
-            " (id INTEGER PRIMARY KEY, start_date TEXT, age INTEGER, started INTEGER, finished INTEGER, finish_date TEXT )";
+            " (id INTEGER PRIMARY KEY, start_date TEXT, started INTEGER, finished INTEGER, finish_date TEXT )";
         //delete table my_table
         dbcmd.CommandText = q_createTable;
         dbcmd.ExecuteReader();
@@ -119,12 +109,6 @@ public class MainMenu : MonoBehaviour
     }
 
 
-    public void ExportData()
-    { 
-    
-    
-    }
-
     private int CheckPreviousId()
     {
         OpenConnection();
@@ -135,7 +119,7 @@ public class MainMenu : MonoBehaviour
         CloseConnection();
         return i;
     }
-    private Boolean CheckIfParticipated(int id)
+  /*  private Boolean CheckIfParticipated(int id)
     {
         OpenConnection();
         IDbCommand dbcmd;
@@ -152,17 +136,17 @@ public class MainMenu : MonoBehaviour
             return true; 
         }
 
+    }*/
+
+    /*private void DropTable()
+    {
+        OpenConnection();
+        IDbCommand dbcmd;
+        dbcmd = dbcon.CreateCommand();
+        dbcmd.CommandText = "DROP Table Results ";
+        int i = Convert.ToInt32(dbcmd.ExecuteScalar());
+        CloseConnection();
     }
+*/
 
-    //private void DropTable()
-    //{
-    //    OpenConnection();
-    //    IDbCommand dbcmd;
-    //    dbcmd = dbcon.CreateCommand();
-    //    dbcmd.CommandText = "DROP Table participant ";
-    //    int i = Convert.ToInt32(dbcmd.ExecuteScalar());
-    //    CloseConnection();
-    //}
-
-  
 }
