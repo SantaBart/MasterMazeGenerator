@@ -11,7 +11,7 @@ public class PlayerCollision : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log(other.name);
+      //  Debug.Log(other.name);
         if(other.name== "Coin(Clone)") 
        {
             GameObject GameLogic = GameObject.Find("GameLogic");

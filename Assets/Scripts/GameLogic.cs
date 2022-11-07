@@ -45,6 +45,7 @@ public class GameLogic : MonoBehaviour
         StopTimer();
         insertResult();
         Timer = 0;
+
         if (seqNo == 5)
         {
             OpenConnection();
@@ -56,7 +57,7 @@ public class GameLogic : MonoBehaviour
             cmnd.ExecuteNonQuery();
 
             CloseConnection();
-            NextScene();
+            Application.OpenURL("https://latvia.questionpro.com/SBSOD?custom1=" + id.ToString());
         }
         else
         {
@@ -88,16 +89,18 @@ public class GameLogic : MonoBehaviour
         OpenConnection();
         id = PlayerPrefs.GetInt("UserID");
         IDbCommand cmnd = dbcon.CreateCommand();
-        cmnd.CommandText = "INSERT INTO Results (participantID, time, seqNo) VALUES (" + id + ", " + Timer + "," + seqNo + ")";
+        int mistakes = PlayerPrefs.GetInt("Mistakes", 0);
+        cmnd.CommandText = "INSERT INTO Results (participantID, time, seqNo, mistakes) VALUES (" + id + ", " + Timer + "," + seqNo + ","+ mistakes+ ")";
+        PlayerPrefs.SetInt("Mistakes", 0);
         cmnd.ExecuteNonQuery();
         CloseConnection();
 
     }
-    private void NextScene()
+  /*  private void NextScene()
     {
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
+    }*/
     private void ResetPlayer()
     {
         GameObject player = GameObject.Find("Player");

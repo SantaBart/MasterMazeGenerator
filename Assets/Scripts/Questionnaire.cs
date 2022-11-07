@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Data;
-using static System.Net.Mime.MediaTypeNames;
+
 
 public class Questionnaire : MonoBehaviour
 {
     void Start()
     {
-       
+
+
+
         Cursor.visible = true;
+       
     }
 
     public void RedirectToQuestionnaire()

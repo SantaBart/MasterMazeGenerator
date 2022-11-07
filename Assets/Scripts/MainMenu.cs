@@ -101,7 +101,7 @@ public class MainMenu : MonoBehaviour
         dbcmd.ExecuteReader();
         IDbCommand dbcmd2 = dbcon.CreateCommand();
         string q2_createTable = "CREATE TABLE IF NOT EXISTS Results" +
-        " (id INTEGER PRIMARY KEY AUTOINCREMENT, participantID INTEGER, time REAL, seqNo INTEGER )";
+        " (id INTEGER PRIMARY KEY AUTOINCREMENT, participantID INTEGER, time REAL, seqNo INTEGER, mistakes INTEGER )";
         //delete table my_table
         dbcmd2.CommandText = q2_createTable;
         dbcmd2.ExecuteReader();
