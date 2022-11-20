@@ -57,7 +57,9 @@ public class GameLogic : MonoBehaviour
             cmnd.ExecuteNonQuery();
 
             CloseConnection();
+            SceneManager.LoadScene(0);
             Application.OpenURL("https://latvia.questionpro.com/SBSOD?custom1=" + id.ToString());
+            
         }
         else
         {

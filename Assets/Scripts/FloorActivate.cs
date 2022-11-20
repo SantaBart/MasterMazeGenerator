@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Data;
-
+/*Counting mistakes*/
 
 public class FloorActivate : MonoBehaviour
 {
