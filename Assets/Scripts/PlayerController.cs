@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
     public Camera playerCamera;
-    public float lookSpeed = 0.01f;
-    public float lookXLimit = 45.0f;
+    public float lookSpeed = 5f;
+    public float lookXLimit = 5f;
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;

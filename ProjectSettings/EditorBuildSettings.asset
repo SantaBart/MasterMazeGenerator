@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/First.unity
     guid: 453a0dd41f55d784093f3a4376f478e9
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/Instruction.unity
     guid: f8f3732131c1d3740b3bf55ea605a770
   - enabled: 1
     path: Assets/Scenes/Labyrinth.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/InstructionTest.unity
+    guid: 644ecdcc3f1e7794fae325af0a74bffd
+  - enabled: 1
+    path: Assets/Scenes/LabyrinthTest.unity
+    guid: f68fbd3d367d4494a932d6f2484d2687
   m_configObjects: {}

@@ -17,10 +17,10 @@ public class FloorActivate : MonoBehaviour
             steps++;
             if (steps > 1)
             {
-                Debug.Log("steps");
-                mistakes = PlayerPrefs.GetInt("Mistakes", 0);
+                //Debug.Log("steps");
+               // mistakes = PlayerPrefs.GetInt("Mistakes", 0);
                 mistakes++;
-                PlayerPrefs.SetInt("Mistakes", mistakes);
+               // PlayerPrefs.SetInt("Mistakes", mistakes);
             }
         }
         previous = GetInstanceID();

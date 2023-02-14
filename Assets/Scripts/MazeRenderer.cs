@@ -25,7 +25,7 @@ public class MazeRenderer : MonoBehaviour
     }
     private void PlaceCoin()
     {
-        var location = new Vector3(-5, 0, 0);// position of the coin
+        var location = new Vector3(-5, 0.3f, 0);// position of the coin
         var c = Instantiate(coin, transform) as Transform;
         coin.position = location;
     }

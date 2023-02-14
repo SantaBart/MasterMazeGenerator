@@ -6,9 +6,10 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Linq;
-using Mono.Data.Sqlite;
+//using Mono.Data.Sqlite;
 using System.Data;
 using System.IO;
+using LootLocker.Requests;
 
 
 public class MainMenu : MonoBehaviour
@@ -16,33 +17,51 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     public TextMeshProUGUI ifield = null;
 
-    string filename = "";
+  //  string filename = "";
 
-    private string connection;
-    private IDbConnection dbcon;
+   // private string connection;
+  //  private IDbConnection dbcon;
     private int id;
 
     void Start()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        id = CheckPreviousId();
-        ifield.text = "ID - "+id.ToString();
-        //PlayerPrefs.SetInt("UserID", id);
- 
+  
+        /*   Cursor.visible = true;
+           Cursor.lockState = CursorLockMode.None;
+           id = CheckPreviousId();
+           ifield.text = "ID - "+id.ToString();
+           //PlayerPrefs.SetInt("UserID", id);*/
 
-       
+
+
+    }
+
+
+    public void PlayTestGame()
+    {
+        SceneManager.LoadScene(4);
+    }
+    public void TestInstruction()
+    {
+        SceneManager.LoadScene(3);
+    }   
+    public void Instruction()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void PlayGame()
     {
-        if (string.IsNullOrEmpty(ifield.text))
+       // memberID = PlayerPrefs.SetString("PlayerID", ifield.text);
+        SceneManager.LoadScene(2);
+
+   /*     if (string.IsNullOrEmpty(ifield.text))
         {
            //warning
         }
         else
         {
-            OpenConnection();
+            *//*OpenConnection();
             IDbCommand cmnd = dbcon.CreateCommand();
             cmnd.CommandText = "UPDATE participant " +
                 "SET started = 1, " +
@@ -50,17 +69,32 @@ public class MainMenu : MonoBehaviour
                 "WHERE id="+id.ToString();
             cmnd.ExecuteNonQuery();
 
-            CloseConnection();
+            CloseConnection();*//*
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);  
-        }
+        }*/
     }
-
-    private static string GetNumbers(string input)
+    public void SetPlayerName()
     {
-        return new string(input.Where(c => char.IsDigit(c)).ToArray());
+        LootLockerSDKManager.SetPlayerName(ifield.text, (response) =>
+        {
+            if (response.success)
+            {
+                Debug.Log("Succesfully set player name");
+            }
+            else
+            {
+                Debug.Log("Could not set player name" + response.Error);
+            }
+        });
     }
 
-    public void NewUser()
+
+    /*   private static string GetNumbers(string input)
+       {
+           return new string(input.Where(c => char.IsDigit(c)).ToArray());
+       }*/
+
+    /*public void NewUser()
     {
         OpenConnection();
         IDbCommand cmd = dbcon.CreateCommand();
@@ -78,69 +112,69 @@ public class MainMenu : MonoBehaviour
         CloseConnection();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
-    }
+    }*/
 
 
-    private void CloseConnection() 
-    {
-        // Close connection
-        dbcon.Close();
-    }
-    private void OpenConnection()
-    {
-        connection = "URI=file:" + Application.dataPath + "/Plugins/Participants.s3db";
-        // Open connection
-        dbcon = new SqliteConnection(connection);
-        dbcon.Open();
+    /* private void CloseConnection() 
+     {
+         // Close connection
+         dbcon.Close();
+     }*/
+    /*    private void OpenConnection()
+        {
+            connection = "URI=file:" + Application.dataPath + "/Plugins/Participants.s3db";
+            // Open connection
+            dbcon = new SqliteConnection(connection);
+            dbcon.Open();
 
-        // Create table
-        IDbCommand dbcmd;
-        dbcmd = dbcon.CreateCommand();
-        string q_createTable = "CREATE TABLE IF NOT EXISTS Participant" +
-            " (id INTEGER PRIMARY KEY, start_date TEXT, started INTEGER, finished INTEGER, finish_date TEXT )";
-        dbcmd.CommandText = q_createTable;
-        dbcmd.ExecuteReader();
-        IDbCommand dbcmd2 = dbcon.CreateCommand();
-        string q2_createTable = "CREATE TABLE IF NOT EXISTS Results" +
-        " (id INTEGER PRIMARY KEY AUTOINCREMENT, participantID INTEGER, time REAL, seqNo INTEGER, mistakes INTEGER )";
-   
-        dbcmd2.CommandText = q2_createTable;
-        dbcmd2.ExecuteReader();
+            // Create table
+            IDbCommand dbcmd;
+            dbcmd = dbcon.CreateCommand();
+            string q_createTable = "CREATE TABLE IF NOT EXISTS Participant" +
+                " (id INTEGER PRIMARY KEY, start_date TEXT, started INTEGER, finished INTEGER, finish_date TEXT )";
+            dbcmd.CommandText = q_createTable;
+            dbcmd.ExecuteReader();
+            IDbCommand dbcmd2 = dbcon.CreateCommand();
+            string q2_createTable = "CREATE TABLE IF NOT EXISTS Results" +
+            " (id INTEGER PRIMARY KEY AUTOINCREMENT, participantID INTEGER, time REAL, seqNo INTEGER, mistakes INTEGER )";
 
-    }
+            dbcmd2.CommandText = q2_createTable;
+            dbcmd2.ExecuteReader();
 
-
-    private int CheckPreviousId()
-    {
-        OpenConnection();
-        IDbCommand dbcmd;
-        dbcmd = dbcon.CreateCommand();
-        dbcmd.CommandText = "SELECT id FROM Participant order by id desc limit 1";
-        int i = dbcmd.ExecuteScalar() == DBNull.Value ? 0 : Convert.ToInt32(dbcmd.ExecuteScalar());
-        CloseConnection();
-        return i;
-    }
+        }*/
 
 
-  public void DropTableResults()
-    {
-        OpenConnection();
-        IDbCommand dbcmd;
-        dbcmd = dbcon.CreateCommand();
-        dbcmd.CommandText = "DROP Table Results ";
-        int i = Convert.ToInt32(dbcmd.ExecuteScalar());
-        CloseConnection();
-    }
-    public void DropTableParticipant()
-    {
-        OpenConnection();
-        IDbCommand dbcmd;
-        dbcmd = dbcon.CreateCommand();
-        dbcmd.CommandText = "DROP Table Participant ";
-        int i = Convert.ToInt32(dbcmd.ExecuteScalar());
-        CloseConnection();
-        ifield.text = "ID - ";
-    }
+    /*    private int CheckPreviousId()
+        {
+            OpenConnection();
+            IDbCommand dbcmd;
+            dbcmd = dbcon.CreateCommand();
+            dbcmd.CommandText = "SELECT id FROM Participant order by id desc limit 1";
+            int i = dbcmd.ExecuteScalar() == DBNull.Value ? 0 : Convert.ToInt32(dbcmd.ExecuteScalar());
+            CloseConnection();
+            return i;
+        }
+    */
+
+    /*  public void DropTableResults()
+        {
+            OpenConnection();
+            IDbCommand dbcmd;
+            dbcmd = dbcon.CreateCommand();
+            dbcmd.CommandText = "DROP Table Results ";
+            int i = Convert.ToInt32(dbcmd.ExecuteScalar());
+            CloseConnection();
+        }
+        public void DropTableParticipant()
+        {
+            OpenConnection();
+            IDbCommand dbcmd;
+            dbcmd = dbcon.CreateCommand();
+            dbcmd.CommandText = "DROP Table Participant ";
+            int i = Convert.ToInt32(dbcmd.ExecuteScalar());
+            CloseConnection();
+            ifield.text = "ID - ";
+        }*/
     public void Quit()
     {
         Application.Quit();
