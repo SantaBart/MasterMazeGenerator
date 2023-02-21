@@ -52,8 +52,9 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-       // memberID = PlayerPrefs.SetString("PlayerID", ifield.text);
-        SceneManager.LoadScene(2);
+        PlayerPrefs.SetString("PlayerID", ifield.text);
+        SceneManager.LoadScene(6);
+      //  SetPlayerName();
 
    /*     if (string.IsNullOrEmpty(ifield.text))
         {
@@ -73,20 +74,7 @@ public class MainMenu : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);  
         }*/
     }
-    public void SetPlayerName()
-    {
-        LootLockerSDKManager.SetPlayerName(ifield.text, (response) =>
-        {
-            if (response.success)
-            {
-                Debug.Log("Succesfully set player name");
-            }
-            else
-            {
-                Debug.Log("Could not set player name" + response.Error);
-            }
-        });
-    }
+ 
 
 
     /*   private static string GetNumbers(string input)
@@ -178,6 +166,12 @@ public class MainMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+
+    } 
+    public void QuitLast()
+    {
+        PlayerPrefs.DeleteAll();
+        UnityEngine.Application.Quit();
 
     }
 

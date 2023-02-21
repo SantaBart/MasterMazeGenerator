@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
             if (!response.success)
             {
                 Debug.Log("error starting LootLocker session");
-                PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
+              //  PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
                 return;
             }
 
@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
 
     //   StartCoroutine(LoginRoutine());
     }
-
+/*
     IEnumerator LoginRoutine()
     {
         bool done = false;
@@ -42,6 +42,6 @@ public class PlayerManager : MonoBehaviour
             }
         });
         yield return new WaitWhile(() => done == false);
-    }
+    }*/
 
 }

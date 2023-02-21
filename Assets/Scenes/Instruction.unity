@@ -307,7 +307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -110}
+  m_AnchoredPosition: {x: 0, y: -146}
   m_SizeDelta: {x: 250, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &386830941
@@ -852,7 +852,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 298, y: 52}
+  m_AnchoredPosition: {x: 298, y: 79}
   m_SizeDelta: {x: 139.59998, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &944585126
@@ -884,7 +884,10 @@ MonoBehaviour:
     t\u0101p\u0113c Jums j\u0101atceras iepriek\u0161\u0113j\u0101 reiz\u0113 veiktais
     mar\u0161ruts.\r\nKopum\u0101 labirints j\u0101veic 5 reizes.\r\nP\u0101rvietoties
     iesp\u0113jams, izmantojot w,a,s,d tausti\u0146us vai tastat\u016Bras bulti\u0146as.
-    Skata le\u0146\u0137i iesp\u0113jams kontrol\u0113t, p\u0101rvietojot pel\u012Bti.\r\nVeiksmes!\r\n"
+    Skata le\u0146\u0137i iesp\u0113jams kontrol\u0113t, p\u0101rvietojot pel\u012Bti.\r\n\nPirms
+    testa s\u0101kuma Jums b\u016Bs j\u0101veic izm\u0113\u0123in\u0101jums un j\u0101atrod
+    pirm\u0101 mon\u0113ta. P\u0113c pirm\u0101s mon\u0113tas atra\u0161anas s\u0101ksies
+    labirinta tests ar laika atskaiti.\n \nVeiksmes!\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

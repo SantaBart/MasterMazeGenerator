@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Linq;
-//using Mono.Data.Sqlite;
+using Mono.Data.Sqlite;
 using System.Data;
 using LootLocker.Requests;
 using static System.Net.Mime.MediaTypeNames;
@@ -24,31 +24,28 @@ public class GameLogic : MonoBehaviour
     public TextMeshProUGUI timerField = null;
 
     private Vector3 originalPos;
-    int leaderboardIDFirst = 11450;
-    int leaderboardIDSecond = 11451;
-    int leaderboardIDThird = 11459;
-    int leaderboardIDFourth = 11460;
-    int leaderboardIDFifth = 11461  ;
+    string leaderboardIDFirst = "first";
+    string leaderboardIDSecond = "second";
+    string leaderboardIDThird = "third";
+    string leaderboardIDFourth = "fourth";
+    string leaderboardIDFifth = "fifth";
     string memberID;
+
+    int firstRez;
+    int secondRez;
+    int thirdRez;
+    int fourthRez;
+    int fifthRez;
+
 
     void Start()
     {
         StartTimer();
         seqNo = 0;
         GameObject player = GameObject.Find("Player");
-      /*  LootLockerSDKManager.StartGuestSession((response) =>
-        {
-            if (!response.success)
-            {
-                UnityEngine.Debug.Log("error starting LootLocker session");
-                PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
-                return;
-            }
 
-            UnityEngine.Debug.Log("successfully started LootLocker session");
-        });*/
         originalPos = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-       // memberID = PlayerPrefs.GetString("PlayerID",""); //System.Guid.NewGuid().ToString();
+        memberID = PlayerPrefs.GetString("PlayerID",""); //System.Guid.NewGuid().ToString();
 
     }
 
@@ -62,9 +59,9 @@ public class GameLogic : MonoBehaviour
     }
 
 
-    public void SubmitScore(int score, int leaderboardID)
+    public void SubmitScore(int score, string leaderboardID)
     {
-        LootLockerSDKManager.SubmitScore(memberID, score, leaderboardID, (response) =>
+        LootLockerSDKManager.SubmitScore(memberID, score,  leaderboardID, memberID, (response) =>
             {
                 if (response.statusCode == 200)
                 {
@@ -76,91 +73,61 @@ public class GameLogic : MonoBehaviour
                 }
             });
     }
-
-
-/*public IEnumerator SubmitScoreRoutine(int scoreToUpload, int leaderboardID)
-    {
-        bool done = false;
-        string playerID = PlayerPrefs.GetString("PlayerID");
-        LootLockerSDKManager.SubmitScore(playerID, scoreToUpload, leaderboardID, (response) =>
-        {
-            if (response.success)
-            {
-                Debug.Log("Successfully uploaded score");
-                done = true;
-            }
-            else
-            {
-                Debug.Log("Failed" + response.Error);
-                done = true;
-            }
-        });
-        yield return new WaitWhile(() => done == false);
-    }
-*/
-
+   
     public void GetCoin()
     {
         seqNo++;
         StopTimer();
-       // insertResult();
+   
       
 
         if (seqNo == 1)
         {
-            SubmitScore((int)Math.Ceiling(Timer), leaderboardIDFirst);
-
-            //StartCoroutine(SubmitScoreRoutine((int)Math.Ceiling(Timer), leaderboardIDFirst));
+            firstRez = (int)Math.Ceiling(Timer);
+            SubmitScore(firstRez, leaderboardIDFirst);
           
         }
         if (seqNo == 2)
         {
-            SubmitScore((int)Math.Ceiling(Timer), leaderboardIDSecond);
-          //  StartCoroutine(SubmitScoreRoutine((int)Math.Ceiling(Timer), leaderboardIDSecond));
+            secondRez = (int)Math.Ceiling(Timer);
+            SubmitScore(secondRez, leaderboardIDSecond);
 
         }
         if (seqNo == 3)
         {
-            SubmitScore((int)Math.Ceiling(Timer), leaderboardIDThird);
-            //StartCoroutine(SubmitScoreRoutine((int)Math.Ceiling(Timer), leaderboardIDThird));
+            thirdRez = (int)Math.Ceiling(Timer);
+            SubmitScore(thirdRez, leaderboardIDThird);
 
         }
         if (seqNo == 4)
         {
-            SubmitScore((int)Math.Ceiling(Timer), leaderboardIDFourth);
-           // StartCoroutine(SubmitScoreRoutine((int)Math.Ceiling(Timer), leaderboardIDFourth));
+            fourthRez = (int)Math.Ceiling(Timer);
+            SubmitScore(fourthRez, leaderboardIDFourth);
 
         }
         if (seqNo == 5)
         {
-            SubmitScore((int)Math.Ceiling(Timer), leaderboardIDFifth);
-            //StartCoroutine(SubmitScoreRoutine((int)Math.Ceiling(Timer), leaderboardIDFifth));
+            fifthRez = (int)Math.Ceiling(Timer);
+          
+            SubmitScore(fifthRez, leaderboardIDFifth);
+        
 
-        }
-        Timer = 0;
 
-        if (seqNo == 5)
-        {
-            /*OpenConnection();
+            OpenConnection();
             IDbCommand cmnd = dbcon.CreateCommand();
-            cmnd.CommandText = "UPDATE participant " +
-                "SET finished = 1, " +
-                "finish_date = datetime('now')" +
-                "WHERE id=" + id.ToString();
-            cmnd.ExecuteNonQuery();*/
-
-            //      CloseConnection();
-            PlayerPrefs.DeleteAll();
-            UnityEngine.Application.Quit();
-            //Izsaukums uz demogrâfiju
-            //  Application.OpenURL("https://latvia.questionpro.com/SBSOD?custom1=" + id.ToString());
-
-        }
-        else
+            cmnd.CommandText = "INSERT INTO ParticipantResults (participantID, first, second, third, fourth, fifth ) VALUES( '"+memberID+"' , " + firstRez + ", " + secondRez + ", "+ thirdRez + ", " + fourthRez + "," + fifthRez+")";
+   
+            cmnd.ExecuteNonQuery(); 
+            CloseConnection();
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene(5);      
+        }else
         {
             ResetPlayer();
             StartTimer();
         }
+        Timer = 0;
     }
     public void StartTimer()
     {
@@ -173,15 +140,37 @@ public class GameLogic : MonoBehaviour
         TimerOn = false;
     }
 
-  /*private void OpenConnection()
-    
-    {
-        connection = "URI=file:" + Application.dataPath + "/Plugins/Participants.s3db";
-        // Open connection
-        dbcon = new SqliteConnection(connection);
-        dbcon.Open();
 
-    }*/
+     private void CloseConnection() 
+     {
+       //   Close connection
+         dbcon.Close();
+     }
+       private void OpenConnection()
+        {
+            connection = "URI=file:" + UnityEngine.Application.dataPath + "/Plugins/Participants.s3db";
+           // Open connection
+            dbcon = new SqliteConnection(connection);
+            dbcon.Open();
+            //Create table
+            IDbCommand dbcmd;
+            dbcmd = dbcon.CreateCommand();
+            string createTable = "CREATE TABLE IF NOT EXISTS ParticipantResults (id INTEGER PRIMARY KEY AUTOINCREMENT, participantID TEXT, first INTEGER, second INTEGER, third INTEGER, fourth INTEGER, fifth INTEGER)";
+            dbcmd.CommandText = createTable;
+            dbcmd.ExecuteReader();
+
+        }
+
+
+    /*private void OpenConnection()
+
+      {
+          connection = "URI=file:" + Application.dataPath + "/Plugins/Participants.s3db";
+          // Open connection
+          dbcon = new SqliteConnection(connection);
+          dbcon.Open();
+
+      }*/
     /*private void insertResult()
     {
         OpenConnection();
@@ -194,11 +183,7 @@ public class GameLogic : MonoBehaviour
         CloseConnection();
 
     }*/
-  /*  private void NextScene()
-    {
-        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }*/
+  
     private void ResetPlayer()
     {
         GameObject player = GameObject.Find("Player");
@@ -206,11 +191,7 @@ public class GameLogic : MonoBehaviour
         player.transform.position = originalPos;
         player.GetComponent<PlayerController>().enabled = true;
     }
-   /* private void CloseConnection()
-    {
-        // Close connection
-        dbcon.Close();
-    }*/
+
   
 
 
