@@ -1,3 +1,8 @@
+/******
+ * Author: Santa Bartuðçvica
+ * Summary: Trigger for the labyrinth training test coin collection. 
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

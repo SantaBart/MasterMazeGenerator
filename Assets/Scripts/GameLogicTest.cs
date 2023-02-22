@@ -1,3 +1,10 @@
+/******
+ * Author: Santa Bartuðçvica
+ * Summary: Game logic for the labyrinth training test. 
+ * Includes timer functionalities, player positioning 
+ * and counting score
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,19 +18,27 @@ using System.Data;
 
 public class GameLogicTest : MonoBehaviour
 {
-    public bool TimerOn = false;
+   
+    //sequential run variable
     public int seqNo = 0;
+
+    //Timer variables
     public float Timer;
-    private int id;
+    public bool TimerOn = false;
     [SerializeField]
     public TextMeshProUGUI timerField = null;
 
+    //players original position
     private Vector3 originalPos;
+
+    //result variables
     string first;
     string second;
     string third;
     string fourth;
     string fifth;
+
+    //UI variables
     [SerializeField]
     public RectTransform panel;
     [SerializeField]
@@ -37,6 +52,8 @@ public class GameLogicTest : MonoBehaviour
         originalPos = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
 
     }
+
+    // update timer
     void Update()
     {
         if (TimerOn == true)
@@ -46,6 +63,8 @@ public class GameLogicTest : MonoBehaviour
         }
     }
 
+
+    // count score and show results
     public void GetCoin()
     {
         seqNo++;
@@ -79,14 +98,14 @@ public class GameLogicTest : MonoBehaviour
         }
         Timer = 0;
 
-        if (seqNo == 5)
+        if (seqNo == 5)// last run show results
         {
             rezText.text = "1. "+ first + " sekundes <br>"+
                            "2. " + second + " sekundes <br>"+
                            "3. " + third + " sekundes <br>"+
                            "4. " + fourth + " sekundes <br>"+
                            "5. " + fifth + " sekundes <br>";
-        panel.gameObject.SetActive(true);
+            panel.gameObject.SetActive(true);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
 
@@ -97,18 +116,21 @@ public class GameLogicTest : MonoBehaviour
             StartTimer();
         }
     }
+
+    //start timer
     public void StartTimer()
     {
         Timer = 0;
         TimerOn = true;
     }
 
+    //stop timer
     public void StopTimer()
     {
         TimerOn = false;
     }
 
-
+    //  Go to starting position  
     private void ResetPlayer()
     {
         GameObject player = GameObject.Find("Player");
@@ -116,6 +138,8 @@ public class GameLogicTest : MonoBehaviour
         player.transform.position = originalPos;
         player.GetComponent<PlayerController>().enabled = true;
     }
+
+    // go back to start
     public void FirstScene()
     {
         Timer = 0;

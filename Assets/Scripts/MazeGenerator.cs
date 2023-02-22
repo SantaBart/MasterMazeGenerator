@@ -1,3 +1,8 @@
+/******
+ * Author: Santa Bartuðçvica
+ * Summary: Maze generator for the labyrinth test. 
+ * Includes maze generation using recursive backtracking algorithm.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,26 +21,26 @@ public enum Statuss
     VISITED = 128, // 1000 0000
 }
 
+//coordinates
 public struct Location
 {
     public int X;
     public int Y;
 }
 
+//Neighbour cell parameters
 public struct Neighbour
 {
     public Location Location;
     public Statuss SharedWall;
 }
 
+//generate maze visit all unvisited cells. Choose a random unvisited neighbour cell. Iteratively visit all cells
 public static class MazeGenerator
-{
-    
-
+{  
     private static Statuss[,] ApplyBacktracker(Statuss[,] maze)
     {
-        // here we make changes
-        var random = new System.Random(/*seed*/);
+        var random = new System.Random();
         var positionStack = new Stack<Location>();
         var position = new Location { X = random.Next(0, 10), Y = random.Next(0, 10) };
 
@@ -76,53 +81,55 @@ public static class MazeGenerator
         else return Statuss.L;
 
     }
-    private static List<Neighbour> GetUnvisitedNeighbours(Location p, Statuss[,] maze)
+    
+    // Returns list of unvisited neighbours
+    private static List<Neighbour> GetUnvisitedNeighbours(Location pos, Statuss[,] maze)
     {
         var list = new List<Neighbour>();
 
-        if (p.X > 0) // left
+        if (pos.X > 0) // left
         {
-            if (!maze[p.X - 1, p.Y].HasFlag(Statuss.VISITED))
+            if (!maze[pos.X - 1, pos.Y].HasFlag(Statuss.VISITED))
             {
                 list.Add(new Neighbour
                 {
-                    Location = new Location {X = p.X - 1,Y = p.Y},
+                    Location = new Location {X = pos.X - 1,Y = pos.Y},
                     SharedWall = Statuss.L
                 });
             }
         }
 
-        if (p.Y > 0) // DOWN
+        if (pos.Y > 0) // DOWN
         {
-            if (!maze[p.X, p.Y - 1].HasFlag(Statuss.VISITED))
+            if (!maze[pos.X, pos.Y - 1].HasFlag(Statuss.VISITED))
             {
                 list.Add(new Neighbour
                 {
-                    Location = new Location{X = p.X,Y = p.Y - 1},
+                    Location = new Location{X = pos.X,Y = pos.Y - 1},
                     SharedWall = Statuss.D
                 });
             }
         }
 
-        if (p.Y < 9) // UP
+        if (pos.Y < 9) // UP
         {
-            if (!maze[p.X, p.Y + 1].HasFlag(Statuss.VISITED))
+            if (!maze[pos.X, pos.Y + 1].HasFlag(Statuss.VISITED))
             {
                 list.Add(new Neighbour
                 {
-                    Location = new Location{X = p.X,Y = p.Y + 1},
+                    Location = new Location{X = pos.X,Y = pos.Y + 1},
                     SharedWall = Statuss.U
                 });
             }
         }
 
-        if (p.X < 9) // RIGHT
+        if (pos.X < 9) // RIGHT
         {
-            if (!maze[p.X + 1, p.Y].HasFlag(Statuss.VISITED))
+            if (!maze[pos.X + 1, pos.Y].HasFlag(Statuss.VISITED))
             {
                 list.Add(new Neighbour
                 {
-                    Location = new Location{X = p.X + 1,Y = p.Y},
+                    Location = new Location{X = pos.X + 1,Y = pos.Y},
                     SharedWall = Statuss.R
                 });
             }
@@ -131,6 +138,7 @@ public static class MazeGenerator
         return list;
     }
 
+    //Initial maze with all walls (statuss 1111) and apply backtracking algorithm
     public static Statuss[,] Generate()
     {
         Statuss[,] maze = new Statuss[10, 10];

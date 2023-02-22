@@ -1,3 +1,9 @@
+/******
+ * Author: Santa Bartuðçvica
+ * Summary: Player controller script. Includes movement and rotation.
+ * Referance:https://docs.unity3d.com/ScriptReference/CharacterController.Move.html 
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

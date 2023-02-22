@@ -1,3 +1,7 @@
+/******
+ * Author: Santa Bartuðçvica
+ * Summary: Maze renderer for the labyrinth training test. Includes getting maze from maze generator and drawing the maze. 
+ */
 
 using System.Collections;
 using System.Collections.Generic;
@@ -10,8 +14,6 @@ public class MazeRendererExample : MonoBehaviour
     [SerializeField]
     private Transform wall = null;
 
-    [SerializeField]
-    private Transform floor = null;
 
     [SerializeField]
     private Transform coin = null;
@@ -38,9 +40,7 @@ public class MazeRendererExample : MonoBehaviour
             {
                 var location = new Vector3(-5 + i, 0, -5 + j);// position of each cell is ofset from center
                 var cell = maze[i, j];
-                var bottom  = Instantiate(floor, transform) as Transform;
-                bottom.position = location;
-               
+
 
                 if (j == 0) //last vertical wall
                 {
