@@ -1,6 +1,13 @@
 # MasterMazeGenerator
 
 Pirmkodu iespējams palaist, izmantojot Unity versiju 2022.1.16f1. 
+Lai izpildītu programmu:
+  - Atveriet Unity projektu, kurā atrodas programmas failu mape.
+  - Atrodiet projektā programmas failu. Tas parasti atrodas Unity hierarhijas logā.
+  - Atlasiet skatu ainu, kurā vēlaties izpildīt programmu.
+  - Augšējā redaktora logā atrodiet pogu "Play", kas atrodas labajā augšējā stūrī.
+  - Nospiediet "Play" pogu, lai sāktu ainu.
+
 
 Autore: Santa Bartušēvica
 
