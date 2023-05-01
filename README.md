@@ -5,7 +5,7 @@ Pirmkodu iespējams palaist, izmantojot Unity versiju 2022.1.16f1.
 Autore: Santa Bartušēvica
 
 Programma nodrošina datu ievākšanu labirinta uzdevumam. 
-Programmā tiek izmantots
+Programmā tiek izmantots:
 
 LootLockerSDK- https://assetstore.unity.com/packages/tools/utilities/lootlocker-sdk-233183
 
